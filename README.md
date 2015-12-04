@@ -41,6 +41,7 @@ day 30 should be 500 * 0.35 / 365 * 15 + 300 * 0.35 / 365 * 10 + 400 * 0.35 / 36
 11.99.  Total payment should be 411.99.
 
 
+Just double checking the math here...
 15 days of $500 at 35%
 500 * 0.35 / 365 * 15 = $7.19
 

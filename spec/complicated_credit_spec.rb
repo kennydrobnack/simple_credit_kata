@@ -11,8 +11,6 @@ RSpec.describe Credit do
     @credit = Credit.new(@credit_limit, @initial_loan, @rate)
     @credit.paydown(200, 15)
     @credit.draw_money(100, 25)
-    @credit.show_history
-    @credit.stupid_interest
 end
 
   it 'Calculates interest on multipart 30 day loan' do

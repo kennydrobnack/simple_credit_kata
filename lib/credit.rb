@@ -9,18 +9,10 @@ class Credit
 		@principal = start_amount
 		first_credit = {
 			'amount' => BigDecimal(start_amount, 2),
-			'start_date' => 1,
+			'start_date' => 0, #Start at day 0 to avoid off-by-one errors
 			'end_date' => 30 #Assuming this is just a 30 day loan with full balance due at end.
 		}
 		@updates.push(first_credit)
-	end
-
-	def show_history
-		@updates.each { |u| puts "Update: amount: #{u['amount'].to_f} start date #{u['start_date']} end date #{u['end_date']}"}
-	end
-
-	def stupid_interest
-		@updates.each {|c| puts "FOO" }
 	end
 
 	def draw_money(amount, date)
@@ -50,7 +42,7 @@ class Credit
 	end
 
 	def calculate_interest
-		return @updates.reduce(0){ |total_interest, c| total_interest +  c['amount'] * @rate / 365 * (c['end_date'] - c['start_date'] + 1)}.round(2)
+		return @updates.reduce(0){ |total_interest, u| total_interest +  u['amount'] * @rate / 365 * (u['end_date'] - u['start_date'])}.round(2)
 	end
 
 	def calculate_amount_due
