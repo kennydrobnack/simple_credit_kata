@@ -4,22 +4,45 @@ class Credit
 
 	def initialize (credit_limit, start_amount, rate)
 		@credit_limit = BigDecimal(credit_limit, 2)
-		@credits = Array.new
+		@updates = Array.new
 		@rate = BigDecimal(rate, 2)
+		@principal = start_amount
 		first_credit = {
 			'amount' => BigDecimal(start_amount, 2),
 			'start_date' => 1,
 			'end_date' => 30 #Assuming this is just a 30 day loan with full balance due at end.
 		}
-		@credits.push(first_credit)
+		@updates.push(first_credit)
+	end
+
+	def show_history
+		@updates.each { |u| puts "Update: amount: #{u['amount'].to_f} start date #{u['start_date']} end date #{u['end_date']}"}
+	end
+
+	def stupid_interest
+		@updates.each {|c| puts "FOO" }
 	end
 
 	def draw_money(amount, date)
+		@updates.last['end_date'] = date
 		new_credit = {
-			'amount' => BigDecimal(amount),
+			'amount' => BigDecimal((@principal + amount), 2),
 			'start_date' => date,
 			'end_date' => 30
 		}
+		@updates.push(new_credit)
+		@principal += amount
+	end
+
+	def paydown(amount, date)
+		@updates.last['end_date'] = date
+		new_credit = {
+			'amount' => BigDecimal(@principal - amount, 2),
+			'start_date' => date,
+			'end_date' => 30
+		}
+		@updates.push(new_credit)
+		@principal -= amount
 	end
 
 	def calculate_remaining_credit
@@ -27,11 +50,10 @@ class Credit
 	end
 
 	def calculate_interest
-		return @credits.reduce(0){ |total_interest, c| 
-			total_interest +  (c['amount'] * @rate / 365 * (c['end_date'] - c['start_date'] + 1)).round(2) }
+		return @updates.reduce(0){ |total_interest, c| total_interest +  c['amount'] * @rate / 365 * (c['end_date'] - c['start_date'] + 1)}.round(2)
 	end
 
 	def calculate_amount_due
-		return @credits.reduce(0) { |total_due, c| total_due + c['amount']} + calculate_interest
+		return @principal + calculate_interest
 	end
 end

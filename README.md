@@ -39,3 +39,13 @@ He draws 500$ on day one so his remaining credit limit is 500$ and his balance i
 He pays back 200$ on day 15 and then draws another 100$ on day 25.  His total owed interest on
 day 30 should be 500 * 0.35 / 365 * 15 + 300 * 0.35 / 365 * 10 + 400 * 0.35 / 365 * 5  which is
 11.99.  Total payment should be 411.99.
+
+
+15 days of $500 at 35%
+500 * 0.35 / 365 * 15 = $7.19
+
+Pays down $200 at day 15 so we have $300 balance
+300 * 0.35 /365 * 10 = $2.88
+
+Draws another $100 on day 25 so we have $400 balance
+400 * 0.35 / 365 * 5 = $1.92
